@@ -59,19 +59,22 @@ int cmp_stu_by_name(const void* p1, const void* p2){
 	return strcmp(((struct Stu*)p1) ->name,((struct Stu*)p2)->name);
 }
 //2. 按照年龄比较，比较整型
-
+int cmp_stu_by_age(const void* p1, const void* p2){
+	return ((struct Stu*)p1)->age - ((struct Stu*)p2)->age;
+}
 
 void test2(){
-	struct Stu arr[3] = {{"zhangsan",20},{"lishi",26},{"wangjun",18}};
+	struct Stu arr[3] = {{"zhangsan",20},{"lisi",26},{"wangwu",18}};
 	int sz = sizeof(arr)/sizeof(arr[0]);
-	qsort(arr,sz,sizeof(arr[0]),);
+//	qsort(arr,sz,sizeof(arr[0]),cmp_stu_by_name);
+	qsort(arr,sz,sizeof(arr[0]),cmp_stu_by_age);
 }
 
 
-int main(){
-//	test1();
-	test2();
-
-	return 0;
-
-}
+//int main(){
+////	test1();
+//	test2();
+//
+//	return 0;
+//
+//}
