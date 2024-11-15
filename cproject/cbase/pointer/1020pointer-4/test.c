@@ -12,18 +12,18 @@
 
 //**************************************************************************************
 //
-//int main(){
-//	const char * p = "hello world";
-//	printf("%s\n",p);
-//	printf("%s\n","hello world");
-//	int lenstr = strlen(p);
-//	int i = 0;
-//	for(i = 0; i < lenstr; i++){
-//		printf("%c" ,*(p+i));
-//	}
-//
-//	return 0;
-//}
+int main(){
+	const char * p = "hello world";
+	printf("%s\n",p);
+	printf("%s\n","hello world");
+	int lenstr = strlen(p);
+	int i = 0;
+	for(i = 0; i < lenstr; i++){
+		printf("%c" ,*(p+i));
+	}
+
+	return 0;
+}
 //**************************************************************************************
 //int main(){
 //	char arr[] = "abcdefg";

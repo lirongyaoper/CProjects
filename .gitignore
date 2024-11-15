@@ -1,5 +1,3 @@
-
-.metadata
 cproject/.cproject
 cproject/.project
 cproject/Debug
@@ -8,4 +6,5 @@ BenNiaoC/.cproject
 BenNiaoC/.project
 BenNiaoC/Debug
 BenNiaoC/.settings
-
+BenNiaoC/.vscode
+./vscode

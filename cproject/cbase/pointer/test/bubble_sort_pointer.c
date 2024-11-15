@@ -28,14 +28,14 @@
 //	}
 //}
 //
-//int main(){
-//	int arr[] = {3,1,7,5,8,9,0,2,4,6};
-//	int sz = sizeof(arr)/sizeof(arr[0]);
-//	bubble_sort(arr,sz);
-//	int i = 0;
-//	for (i =0;i < sz;i++){
-//		printf("%d ",arr[i]);
-//	}
-//	return 0;
-//}
-//*****************************************************************************************
+int main(){
+	int arr[] = {3,1,7,5,8,9,0,2,4,6};
+	int sz = sizeof(arr)/sizeof(arr[0]);
+	bubble_sort(arr,sz);
+	int i = 0;
+	for (i =0;i < sz;i++){
+		printf("%d ",arr[i]);
+	}
+	return 0;
+}
+
