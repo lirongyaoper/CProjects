@@ -56,7 +56,7 @@ void insertTable(Table* T,int elem,int insert_local){
     }
 }
 
-//删除函数
+//删除函数 (依据位置删除)
 void deleteTable(Table* T,int delete_local){
     int i;
     //如果删除位置不合法，则提示并退出程序
@@ -89,7 +89,7 @@ int searchTable(Table *T,int elem){
 
 //更改函数
 void amendTable(Table* T, int elem, int newElem) {
-    int add = searchTable(&T, elem);
+    int add = searchTable(T, elem);
     if (add == -1) {
         printf("顺序表中没有找到目标元素\n");
         return;
@@ -133,5 +133,18 @@ int main(){
     }
     printf("原顺序表：\n");
     displayTable(&T);
+    printf("删除元素1:\n");
+    deleteTable(&T, 1);
+    displayTable(&T);    
+    printf("在第2的位置插入元素5:\n");
+    insertTable(&T, 5, 2);
+    displayTable(&T);
+    printf("查找元素3的位置:\n");
+    add = searchTable(&T, 3);
+    printf("%d\n", add);
+
+    printf("将元素3改为6:\n");
+    amendTable(&T, 3, 6);
+    displayTable(&T);    
     return 0;
 }
