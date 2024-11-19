@@ -17,7 +17,7 @@ linkNode* initLinkNode(){
      temp ->next = NULL;
      p = temp;
      //3、每创建一个结点，都令其直接前驱结点的指针指向它
-     for(int i = 2;i <5; i++){
+     for(int i = 2;i <8; i++){
         //创建一个结点
         linkNode* newNode = (linkNode*)malloc(sizeof(linkNode));
         newNode->elem =  i;
@@ -43,7 +43,7 @@ void display(linkNode* p){
 }
 
 //销毁链表
-void destroy(linkNode* p){
+void destroyLink(linkNode* p){
     while(p){
          linkNode* free_node = p;
          p = p->next;
@@ -51,7 +51,7 @@ void destroy(linkNode* p){
     }
 }
 
-
+//遍历两次链表
 // 删除链表的倒数第 N 个节点
 linkNode* removeNthFromEnd(linkNode* head, int N){
     int length = 0;
@@ -81,3 +81,70 @@ linkNode* removeNthFromEnd(linkNode* head, int N){
      return head;
 }
 
+
+//两个指针
+linkNode* removeNthFromEnd2(linkNode* head ,int N){
+    linkNode* temp = (linkNode*)malloc(sizeof(linkNode));
+    temp -> next = head;
+    head = temp;
+    
+    linkNode* first = head;
+    linkNode* second = head;
+    //先移动 P1，向后移动 N 次
+    for(int i = 0; i< N; i++){
+        if(first == NULL){
+            break;
+            
+        }
+        first = first ->next;
+    }
+    if(first ==NULL || second == NULL){
+        return NULL;
+    }
+    while(first->next != NULL){
+        first = first ->next;
+        second = second -> next;
+    }
+    linkNode* target = second ->next;
+    second->next = second->next->next;
+    free(target);
+    head = temp -> next;
+    free(temp);
+    return head;
+}
+
+int removeNthFromEndRecursive(linkNode* head,int N){
+    if(head ==NULL){
+        return 0;
+    }
+    int count = removeNthFromEndRecursive(head->next,N)+1;
+    if(count ==N+1){
+        linkNode* target = head ->next;
+        head ->next  = head ->next ->next;
+        free(target);
+    }
+    return count;
+}
+linkNode* removeNthFromEnd3(linkNode* head ,int N){
+    linkNode* temp = (linkNode*)malloc(sizeof(linkNode));
+    temp -> next = head;
+    head = temp;
+    removeNthFromEndRecursive(head,N);
+    head = temp ->next;
+    free(temp);
+    return head;
+}
+
+
+int main(){
+    linkNode* p = initLinkNode();
+    // 输出链表中的数据
+    printf("原链表：");
+    display(p);    
+    // 删除倒数第 2 个结点
+    p = removeNthFromEnd3(p, 2);
+    display(p);
+    destroyLink(p);
+    return 0;
+    
+}
