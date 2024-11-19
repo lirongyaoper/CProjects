@@ -3,7 +3,7 @@ git rm -r --cached .
 git add .
 git status
 
-
+git remote -v  
 ##被忽略的文件重新添加版本库中
 
 
