@@ -10,12 +10,12 @@ typedef struct link{
 
 Link* initLink(){
     Link* temp = (Link*)malloc(sizeof(Link));
-    temp->elem = 0;
+    temp->elem = 1;
     temp->next = NULL;
     Link* p = temp;
-    for(int i = 1; i <5; i++){
+    for(int i = 2; i <5; i++){
         Link* a = (Link*)malloc(sizeof(Link));
-        a->elem = i;
+        a->elem = i; 
         a->next = NULL;
         temp -> next = a;
         temp  = temp ->next;
@@ -96,7 +96,7 @@ int amendElem(Link* p ,int oldElem, int newElem){
 
 //输出链表中各个结点的元素
 void display(Link* p){
-    p = p->next;
+    //p = p->next;
     while(p){
         printf("%d ",p->elem);
         p  = p ->next;
@@ -125,33 +125,47 @@ Link* iteration_reverse(Link* p){
         Link* end = p->next;
         while(end){
             mid ->next = beg;
-            beg = mid;
-            mid  = end;
-            end = end ->next;
+            beg  =  mid;
+            mid  =  end;
+            end  =  end->next;
         }
+        mid ->next = beg;
         Link* head = mid;
         return head;
     }
     
 }
+//2.
+Link* recursive_reverse(Link* head){
+    if (head ==NULL || head->next ==NULL){
+        return head;
+    }else{
+        Link* new_head = recursive_reverse(head ->next);
+        head -> next ->next = head;
+        head ->next = NULL;
+        return new_head;
+    }
+}
+ 
 int main() {
     Link* p = initLink();
     printf("初始化链表为：\n");
     display(p);
     printf("反转链表：\n");
-    Link* head  = iteration_reverse(p);
+    //Link* head  = iteration_reverse(p);
+    Link* head  = recursive_reverse(p);
     display(head);
-    printf("在第 3 的位置上添加元素 6：\n");
-    insertElem(p, 6, 3);
-    display(p);
-    printf("删除元素4：\n");
-    delElem(p, 4);
-    display(p);
-    printf("查找元素 2：\n");
-    printf("元素 2 的位置为：%d\n", selectElem(p, 2));
-    printf("更改元素 1 的值为 6：\n");
-    amendElem(p, 1, 6);
-    display(p);
+    // printf("在第 3 的位置上添加元素 6：\n");
+    // insertElem(p, 6, 3);
+    // display(p);
+    // printf("删除元素4：\n");
+    // delElem(p, 4);
+    // display(p);
+    // printf("查找元素 2：\n");
+    // printf("元素 2 的位置为：%d\n", selectElem(p, 2));
+    // printf("更改元素 1 的值为 6：\n");
+    // amendElem(p, 1, 6);
+    // display(p);
     Link_free(p);
     return 0;
 }
