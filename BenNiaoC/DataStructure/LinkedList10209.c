@@ -135,7 +135,7 @@ Link* iteration_reverse(Link* p){
     }
     
 }
-//2.
+//2.递归反转链表
 Link* recursive_reverse(Link* head){
     if (head ==NULL || head->next ==NULL){
         return head;
@@ -146,6 +146,42 @@ Link* recursive_reverse(Link* head){
         return new_head;
     }
 }
+//3.3、头插法反转链表
+Link* head_reverse(Link* p){
+    Link* new_head = NULL;
+    Link* temp = NULL;
+    if(p == NULL || p->next ==NULL){
+        return p;
+    }
+    while(p !=NULL){
+        temp = p;
+        //将 temp 从 head 中摘除
+        p = p ->next;
+        //将 temp 插入到 new_head 的头部
+        temp ->next = new_head;
+        new_head = temp;
+    }
+    return new_head;
+}
+
+//4、就地逆置法反转链表
+Link* local_reverse(Link* p){
+    Link* pre = NULL;
+    Link* nex = NULL;
+    if (p == NULL || p->next ==NULL){
+        return p;
+    }
+    pre = p;
+    nex = p -> next;
+    while(nex != NULL){
+        pre -> next = nex ->next;
+        nex ->next = p;
+        p = nex;
+        nex = pre->next; 
+    }
+    return p;
+}
+
  
 int main() {
     Link* p = initLink();
@@ -153,7 +189,9 @@ int main() {
     display(p);
     printf("反转链表：\n");
     //Link* head  = iteration_reverse(p);
-    Link* head  = recursive_reverse(p);
+    //Link* head  = recursive_reverse(p);
+    //Link*head = head_reverse(p);
+    Link* head = local_reverse(p);
     display(head);
     // printf("在第 3 的位置上添加元素 6：\n");
     // insertElem(p, 6, 3);
