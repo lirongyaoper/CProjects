@@ -43,8 +43,8 @@ Dlinklist* insertAtEnd(Dlinklist *head,int data){
 Dlinklist* insertBetween(Dlinklist *head, int data, int pos){
     Dlinklist *newNode = createNode(data);
     Dlinklist *temp = head;
-    int i = 0;
-    while(i < pos-1){
+    int i = 1;
+    while(i < pos){
         temp = temp->next;
         i++;
     }    
@@ -56,30 +56,76 @@ Dlinklist* insertBetween(Dlinklist *head, int data, int pos){
 
 }
 
-Dlinklist* deleteNode(Dlinklist *head, int pos){
-    Dlinklist *temp = head;
-    if(pos == 0){
-        head = head->next;
-        head ->prev = NULL;
-        return head;
-    }
-    int i = 0;
-    while(i < pos-1){
-        temp = temp->next;
-        if(temp->next == NULL){
-            temp->next ->prev->next = NULL;
-            temp->next ->prev = NULL;
-            free(temp);
-            return head;
+// Dlinklist* deleteNode(Dlinklist *head, int pos){
+//     Dlinklist *temp = head;
+//     if(pos == 1){
+//         head = head->next;
+//         head ->prev = NULL;
+//         return head;
+//     }
+//     int i = 1;
+//     while(i < pos){
+//         //temp = temp->next;
+//         if(temp->next == NULL){
+//             temp->prev->next = NULL;
+//             temp->prev = NULL;
+//             free(temp);
+//             return head;
+//         }
+//         temp = temp->next;
+//         i++;
+//     }
+//     temp->next = temp->next->next;
+//     temp->next->prev = temp;
+//     return head;
+// }
+
+Dlinklist* deleteNode(Dlinklist *head, int data){
+    Dlinklist* temp = head;
+    while(temp){
+        if(temp ->data == data){
+            // 删除表头结点的实现过程是：
+            // 新建一个指针指向表头结点；
+            // 断开表头结点和其直接后续结点之间的关联，更改 head 头指针的指向，同时将其直接后续结点的 prior 指针指向 NULL；
+            // 释放表头结点占用的内存空间。
+            if(temp->prev ==NULL){
+                head = head->next;
+                if(head ){
+                    head->prev = NULL;
+                    temp->next = NULL;
+
+                }
+                free(temp);
+                return head;
+            }
+            // 删除中间结点的实现过程是：
+            // 新建一个指针指向待删除结点；
+            // 将其直接后续结点的 prior 指针指向其直接前驱结点，同时将其直接前驱结点的 next 指针指向其直接后续结点；
+            // 释放待删除结点的内存空间。
+            if(temp ->prev &&temp->next){
+                temp->next->prev = temp->prev;
+                temp->prev->next = temp->next;
+                free(temp);
+                return head;
+            }
+            // 删除表尾结点的实现过程是：
+            // 新建一个指针指向待删除结点；
+            // 将其直接前驱结点的 next 指针指向 NULL，同时将其 prior 指针指向其直接后续结点；
+            // 释放待删除结点的内存空间。
+            if(temp->next ==NULL){
+                temp->prev->next = NULL;
+                temp->prev = NULL;
+                free(temp);
+                 return head;
+            }
         }
-        i++;
+        temp = temp->next;
     }
-    temp->next = temp->next->next;
-    temp->next->prev = temp;
+    printf("Node not found. failed to delete.\n");
     return head;
 }
 
-
+ 
 
 void printList(Dlinklist *head){
     Dlinklist *temp = head;
@@ -113,7 +159,7 @@ int main(){
     head = insertBetween(head, 4, 3);
     printList(head);
     printf("After Deletion\n");
-    head = deleteNode(head, 4);
+    head = deleteNode(head, 5);
     printList(head);
     return 0;
 }
