@@ -1,33 +1,21 @@
 {
     "version": "2.0.0",
-    "tasks": [{
-            "label": "compile",
-            "command": "gcc",
-            "args": [
-                "-g",
-                "${file}",
-                "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
-            ],
-            "problemMatcher": {
-                "owner": "cpp",
-                "fileLocation": [
-                    "relative",
-                    "${workspaceRoot}"
-                ],
-                "pattern": {
-                    "regexp": "^(.*):(\\d+):(\\d+):\\s+(warning|error):\\s+(.*)$",
-                    "file": 1,
-                    "line": 2,
-                    "column": 3,
-                    "severity": 4,
-                    "message": 5
-                }
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
-        }
+    "tasks": [
+      {
+        "label": "Build C Program",
+        "type": "shell",
+        "command": "gcc",
+        "args": [
+          "-g",               // 生成调试信息
+          "${file}",          // 当前打开的文件
+          "-o",               // 输出文件
+          "${fileDirname}/${fileBasenameNoExtension}"  // 输出路径（去掉扩展名）
+        ],
+        "group": {
+          "kind": "build",
+          "isDefault": true
+        },
+        "problemMatcher": []
+      }
     ]
-}
+  }
