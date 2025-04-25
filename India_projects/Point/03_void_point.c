@@ -8,5 +8,5 @@ int main(){
     //void pointer -Genric pointer
     void *p0;
     p0 = p;
-    printf("address = %d",p0);
+    printf("address = %d\n",p0);
 }
