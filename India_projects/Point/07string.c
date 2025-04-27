@@ -9,6 +9,7 @@ void print(char *c){
 }
 
 int main(){
-    char C[20] = "Hello";
+    //char C[20] = "Hello";// string gets stored in the space for array
+    char *C = "Hello";//string gets stored as complie time costant   
     print(C);
 }
