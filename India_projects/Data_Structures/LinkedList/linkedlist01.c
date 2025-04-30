@@ -53,7 +53,6 @@ void insertAtEnd(Node** head ,int data){
         temp = temp -> next;
     }
     temp -> next = newNode;
-    printf("Inserted %d at the end\n",data);
 
 }
 // insert a node at the middle of the linked list
@@ -165,6 +164,61 @@ void freeList(Node** head){
     }
 }
 
+//get the size of the linked list
+int getListLength(Node* head){
+    int length = 0;
+    Node* temp = head;
+    while(temp !=NULL){
+        length++;
+        temp = temp -> next;
+    } 
+    return length;
+}
+
+//reverse the linked list
+void reverseList(Node** head){
+    Node* prev = NULL;
+    Node* current = *head;
+    Node* next = NULL;
+    while(current != NULL){
+        next = current -> next;
+        current -> next = prev;
+        prev = current;
+        current = next;
+    }
+    *head = prev;
+} 
+
+//merge two sorted linked list
+Node* mergeSortedLists(Node* list1, Node* list2){
+    if(list1 == NULL) return list2;
+    if(list2 == NULL) return list1;
+    Node* dummy = (Node*)malloc(sizeof(Node));
+    if(dummy == NULL){
+        printf("Memory allocation failed\n");
+        exit(1);
+    }
+    dummy->next = NULL;
+    Node* current = dummy;
+
+    while(list1 != NULL && list2 != NULL){
+        if(list1->data < list2 -> data){
+            current -> next = list1;
+            list1 = list1 -> next;
+        }else{
+            current -> next = list2;
+            list2 = list2 ->next;
+        }
+        current = current -> next;
+
+    }
+    //  add remaining nodes
+    current -> next = (list1 != NULL) ? list1 : list2;
+    Node* mergedList = dummy -> next;
+    free(dummy);
+    return mergedList;
+}
+
 int main(){
     Node* head = NULL;
     //insert at the beginning
@@ -176,5 +230,14 @@ int main(){
     insertAtPositon(&head,40,2);
     insertAtPositon(&head,50,1);
     printList(head);
+    Node* head2 = NULL;
+    insertAtBeginning(&head2,60);
+    insertAtBeginning(&head2,5);
+    insertAtEnd(&head2,15);
+    insertAtPositon(&head2,25,2);
+    insertAtPositon(&head2,35,1);
+    printList(head2);
 
+    Node* mergeList= mergeSortedLists(head,head2);
+    printList(mergeList);
 }
