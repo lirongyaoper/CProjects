@@ -12,31 +12,17 @@ Node* createNewNode(int data){
     if (newNode == NULL){
         printf("Memory allocation failed\n");
         exit(1);
-
     }
-    // newNode->data = data;
     (*newNode).data = data;
     newNode->next = NULL;    
     return newNode;
 } 
-
-
-// 该函数功能是将一个新节点插入到链表的头部，但存在一个问题：`head`参数是以值传递的方式传入的，因此对`head`的修改不会影响调用者中的链表头指针。具体逻辑如下：  
-// 1. 调用`createNewNode`函数创建一个新节点，并将其数据域设置为`data`。  
-// 2. 将新节点的`next`指向当前链表头节点`head`。  
-// 3. 更新`head`为新节点，但由于`head`是局部变量，外部链表头指针不会被更新。
-// void insertAtBeginning(Node* head,int data ){
-//     Node* newNode = createNewNode(data);
-//     newNode->next = head;
-//     head = newNode;
-// }
 
 // insert a node at the first of the linked list
 void insertAtBeginning(Node** head , int data){
     Node* newNode = createNewNode(data);
     newNode->next = *head;
     *head = newNode;
-
 }
 
 //insert a node at the end of the linked list
@@ -53,8 +39,9 @@ void insertAtEnd(Node** head ,int data){
         temp = temp -> next;
     }
     temp -> next = newNode;
-
+    printf("Inserted %d at the end\n",data);
 }
+
 // insert a node at the middle of the linked list
 void insertAtPositon(Node** head , int data, int position){
     if(position == 0){
@@ -91,7 +78,6 @@ void deleteAtEnd(Node** head){
     if(*head == NULL){
         printf("List is empty\n");
         return;
-
     }
     if((*head) -> next == NULL){
         free(*head);
@@ -101,7 +87,6 @@ void deleteAtEnd(Node** head){
     Node* temp = *head;
     while(temp ->next -> next != NULL){
         temp = temp -> next;
-
     }
     free(temp -> next);
     temp ->next = NULL;
@@ -120,12 +105,10 @@ void deleteAtPosition(Node** head, int position){
     Node* temp = *head;
     for(int i = 0; i < position -1 && temp != NULL; i++){
         temp = temp -> next;
-
     }
     if(temp == NULL || temp -> next ==NULL){
         printf("Invalid position\n");
         return;
-
     }
     Node* toDelete = temp -> next;
     temp -> next = toDelete -> next;
@@ -154,7 +137,6 @@ void printList(Node* head){
     printf("\n");
 }
 
-
 void freeList(Node** head){
     Node* temp;
     while(* head != NULL){
@@ -164,63 +146,78 @@ void freeList(Node** head){
     }
 }
 
-//get the size of the linked list
-int getListLength(Node* head){
+// 获取链表长度
+int getListLength(Node* head) {
     int length = 0;
     Node* temp = head;
-    while(temp !=NULL){
+    while (temp != NULL) {
         length++;
-        temp = temp -> next;
-    } 
+        temp = temp->next;
+    }
     return length;
 }
 
-//reverse the linked list
-void reverseList(Node** head){
+// 反转链表
+void reverseList(Node** head) {
     Node* prev = NULL;
     Node* current = *head;
     Node* next = NULL;
-    while(current != NULL){
-        next = current -> next;
-        current -> next = prev;
+    while (current != NULL) {
+        next = current->next;
+        current->next = prev;
         prev = current;
         current = next;
     }
     *head = prev;
-} 
+}
 
-//merge two sorted linked list
-Node* mergeSortedLists(Node* list1, Node* list2){
-    if(list1 == NULL) return list2;
-    if(list2 == NULL) return list1;
-    Node* dummy = (Node*)malloc(sizeof(Node));
-    if(dummy == NULL){
-        printf("Memory allocation failed\n");
-        exit(1);
-    }
-    Node* current = dummy;
-    dummy->next = NULL;
+// 合并两个有序链表
+Node* mergeSortedLists(Node* list1, Node* list2) {
+    if (list1 == NULL) return list2;
+    if (list2 == NULL) return list1;
 
-    // Node dummy;
-    // Node* tail = &dummy;
-    // dummy.next = NULL;
+    Node dummy;
+    Node* tail = &dummy;
+    dummy.next = NULL;
 
-    while(list1 != NULL && list2 != NULL){
-        if(list1->data < list2 -> data){
-            current -> next = list1;
-            list1 = list1 -> next;
-        }else{
-            current -> next = list2;
-            list2 = list2 ->next;
+    while (list1 != NULL && list2 != NULL) {
+        if (list1->data <= list2->data) {
+            tail->next = list1;
+            list1 = list1->next;
+        } else {
+            tail->next = list2;
+            list2 = list2->next;
         }
-        current = current -> next;
-
+        tail = tail->next;
     }
-    //  add remaining nodes
-    current -> next = (list1 != NULL) ? list1 : list2;
-    Node* mergedList = dummy -> next;
-    free(dummy);
-    return mergedList;
+
+    if (list1 != NULL) {
+        tail->next = list1;
+    } else {
+        tail->next = list2;
+    }
+
+    return dummy.next;
+}
+
+// 删除链表中所有值为指定值的节点
+void deleteNodesWithValue(Node** head, int value) {
+    while (*head != NULL && (*head)->data == value) {
+        Node* temp = *head;
+        *head = (*head)->next;
+        free(temp);
+    }
+
+    Node* current = *head;
+    while (current != NULL && current->next != NULL) {
+        if (current->next->data == value) {
+            Node* temp = current->next;
+            current->next = current->next->next;
+            free(temp);
+        } else {
+            current = current->next;
+        }
+    }
 }
 
 int main(){
@@ -234,14 +231,36 @@ int main(){
     insertAtPositon(&head,40,2);
     insertAtPositon(&head,50,1);
     printList(head);
+
+    // 获取链表长度
+    int length = getListLength(head);
+    printf("List length: %d\n", length);
+
+    // 反转链表
+    reverseList(&head);
+    printf("Reversed list: ");
+    printList(head);
+
+    // 创建另一个有序链表
     Node* head2 = NULL;
-    insertAtBeginning(&head2,60);
-    insertAtBeginning(&head2,5);
-    insertAtEnd(&head2,15);
-    insertAtPositon(&head2,25,2);
-    insertAtPositon(&head2,35,1);
+    insertAtBeginning(&head2, 15);
+    insertAtBeginning(&head2, 25);
+    insertAtBeginning(&head2, 35);
+    printf("List 2: ");
     printList(head2);
 
-    Node* mergeList= mergeSortedLists(head,head2);
-    printList(mergeList);
+    // 合并两个有序链表
+    Node* mergedList = mergeSortedLists(head, head2);
+    printf("Merged list: ");
+    printList(mergedList);
+
+    // 删除链表中所有值为指定值的节点
+    deleteNodesWithValue(&mergedList, 25);
+    printf("List after deleting nodes with value 25: ");
+    printList(mergedList);
+
+    // 释放链表内存
+    freeList(&mergedList);
+
+    return 0;
 }
