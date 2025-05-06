@@ -189,13 +189,16 @@ void reverse_linked(Node** head){
     *head = prev;
 } 
 
-Node* reverse_linked_recursive(Node* head){
-    if(head == NULL ||head -> next ==NULL){
-        return head;
+Node* reverse_linked_recursive(Node** head){
+    // if the linked list is empty or has only one node,return the head directly.
+    if((*head) == NULL ||(*head) -> next == NULL){
+        return (*head);
     }
-    Node* newHead = reverse_linked_recursive(head -> next);
-    head -> next -> next = head;
-    head -> next = NULL;
+    //Recursively call the function to reverse the linked liset after the current node
+    Node* newHead = reverse_linked_recursive(&(*head) -> next);
+    //Make the next pointer of the next node of the current node point to the current node, achieving local reversal
+    (*head) -> next -> next = (*head);
+    (*head) -> next = NULL;
     return newHead;
 
 }
@@ -258,7 +261,9 @@ int main(){
     //insert at the middle
     insertAtPositon(&head,40,2);
     insertAtPositon(&head,50,1);
-    reverse_linked_recursive(head);
+    insertAtPositon(&head,100,0);
+    printList(head);
+    head=reverse_linked_recursive(&head);
     printList(head);
     
 }
