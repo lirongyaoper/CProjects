@@ -20,18 +20,21 @@ ListNode* createNode(int val) {
 }
 
 // Reverse the singly linked list recursively
-ListNode* reverseListRecursive(ListNode* head) {
+ListNode* reverseListRecursive(ListNode** head) {
     // If the linked list is empty or has only one node, return the head directly
-    if (head == NULL || head->next == NULL) {
-        return head;
+    if ((*head) == NULL || (*head)->next == NULL) {
+        return (*head);
     }
     // Recursively call the function to reverse the linked list after the current node
-    ListNode* newHead = reverseListRecursive(head->next);
+    ListNode* newHead = reverseListRecursive(&(*head)->next);
     // Make the next pointer of the next node of the current node point to the current node, 
     //achieving local reversal
-    head->next->next = head;
+    //(*head)->next->next = (*head);
+    ListNode* temp = (*head) ->next;
     // Set the next pointer of the current node to NULL
-    head->next = NULL;
+    //(*head)->next = NULL;
+    temp -> next = (*head);
+    (*head)->next = NULL;
     // Return the new head node
     return newHead;
 }
@@ -66,7 +69,7 @@ int main() {
     printList(head);
 
     // Reverse the linked list recursively
-    head = reverseListRecursive(head);
+    head = reverseListRecursive(&head);
 
     printf("Reversed linked list: ");
     printList(head);
